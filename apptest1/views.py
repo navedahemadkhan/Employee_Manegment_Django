@@ -38,8 +38,19 @@ def add_emp(request):
         return HttpResponse("'Error'")
 
 
-def remove_emp(request):
-    return render(request, 'remove_emp.html')
+def remove_emp(request,emp_id=  0):
+    if emp_id:
+        try:
+            emp_del  = Employee.objects.get(id=emp_id)
+            emp_del.delete()
+            return HttpResponse("Delete Successfuly")
+        except:
+            HttpResponse("Invalid selection")
+    emps = Employee.objects.all()
+    context ={
+        'emps':emps
+    }
+    return render(request, 'remove_emp.html',context)
 
 def filter_emp(request):
     return render(request, 'filter_emp.html')
